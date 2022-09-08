@@ -5,7 +5,7 @@ export default class Estudante {
     private email: string,
     private data_nasc: string,
     private turma_id: number,
-    private hobbie: number
+    private hobbie: string[] = []
   ) { }
 
   getIdEstudante() {
