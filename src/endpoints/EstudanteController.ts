@@ -10,7 +10,6 @@ export default class UserController {
       if (!id || !nome || !email || !data_nasc || !turma_id || !hobbies) {
         throw new Error("Faltam dados!");
       }
-      // instancia um usuario
       const [day, month, year] = data_nasc.split('/');
       const data_nasc_2 = `${year}-${month}-${day}`;
 
