@@ -6,7 +6,7 @@ export default class EstudanteData extends BaseDataBase {
     await this.getConnetion().raw(`
       INSERT
       INTO ESTUDANTE (id, nome, email, data_nasc, turma_id, hobbies)
-      VALUES (${estudante.getIdEstudante()}, '${estudante.getName()}', '${estudante.getEmail()}', '${estudante.getData_nasc()}', ${estudante.getTurma_id()}, '${estudante.getHobbie()}')
+      VALUES (${estudante.getIdEstudante()}, '${estudante.getNome()}', '${estudante.getEmail()}', '${estudante.getData_nasc()}', ${estudante.getTurma_id()}, '${estudante.getHobbie()}')
     `)
   }
 

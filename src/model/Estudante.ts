@@ -1,7 +1,7 @@
 export default class Estudante {
   constructor(
-    private idEstudante: number,
-    private name: string,
+    private idEstudante: string,
+    private nome: string,
     private email: string,
     private data_nasc: string,
     private turma_id: number,
@@ -12,8 +12,8 @@ export default class Estudante {
     return this.idEstudante
   }
 
-  getName() {
-    return this.name
+  getNome() {
+    return this.nome
   }
 
   getEmail() {
