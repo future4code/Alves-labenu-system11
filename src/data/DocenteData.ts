@@ -26,4 +26,18 @@ export default class DocenteData extends BaseDataBase {
       WHERE (DOCENTE.id = ${id})
     `)
   }
+
+  async agruparDocentesPOO(): Promise<{}[]> {
+    const [docentesAgrupadosPOO] = await this.getConnetion().raw(`
+      SELECT DOCENTE.nome as 'docente_nome', ESPECIALIDADE.nome as 'especialidade_nome'
+      FROM DOCENTE_ESPECIALIDADE
+      JOIN DOCENTE
+      ON DOCENTE_ESPECIALIDADE.docente_id = DOCENTE.id
+      JOIN ESPECIALIDADE
+      ON ESPECIALIDADE.id = DOCENTE_ESPECIALIDADE.especialidade_id
+      WHERE (ESPECIALIDADE.nome = "POO")
+    `)
+
+    return docentesAgrupadosPOO
+  }
 }

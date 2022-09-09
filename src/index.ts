@@ -10,6 +10,7 @@ const docenteController = new DocenteController();
 app.post("/estudante/create", estudanteController.createUser);
 app.get("/estudante/buscar", estudanteController.buscarEstudante);
 app.put("/estudante/mudar", estudanteController.mudarTurmaEstudante);
+app.get("/estudante/hobby/:id", estudanteController.agruparEstudantesHobby);
 
 app.post("/turma/create", turmaController.createTurma);
 app.get("/turma/ativas", turmaController.buscarTurmasAtivas);
@@ -19,3 +20,4 @@ app.get("/:id/participantes", turmaController.buscarParticipantes);
 app.post("/docente/create", docenteController.createDocente);
 app.get("/docente", docenteController.obterDocentes);
 app.put("/docente/mudar", docenteController.mudarTurmaDocente);
+app.get("/docente/poo", docenteController.agruparDocentesPOO);

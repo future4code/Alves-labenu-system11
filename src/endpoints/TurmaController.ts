@@ -59,9 +59,20 @@ export default class TurmaController {
       const turma_id = Number(req.params.id);
 
       const turmaData = new TurmaData();
-      const participantes = await turmaData.selectParticipantes(turma_id);
+      const participantes:any = await turmaData.selectParticipantes(turma_id);
 
-      res.status(201).send(participantes);
+      const resultado = {
+        "docente": participantes[0].nome_docente,
+        "alunos": [],
+        "id_turma": participantes[0].id_turma,
+        "nome_turma": participantes[0].nome_turma
+      }
+
+      participantes.forEach( (participante:any) => {
+        resultado.alunos.push(participante.nome_estudante)
+      })
+
+      res.status(201).send(resultado);
     } catch (error: any) {
       res.status(500).send({ message: error.message })
     }

@@ -106,4 +106,25 @@ export default class UserController {
       res.status(500).send({ message: error.message })
     }
   }
+
+  async agruparDocentesPOO(req: Request, res: Response) {
+    try {
+
+      const docenteData = new DocenteData();
+      const docentesAgrupados:any = await docenteData.agruparDocentesPOO();
+
+      const resultado = {
+        "especialidade": docentesAgrupados[0].especialidade_nome,
+        "docentes": []
+      }
+
+      docentesAgrupados.forEach( (docente:any) => {
+        resultado.docentes.push(docente.docente_nome)
+      })
+
+      res.status(201).send(resultado);
+    } catch (error: any) {
+      res.status(500).send({ message: error.message })
+    }
+  }
 }
