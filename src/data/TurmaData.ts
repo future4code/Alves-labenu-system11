@@ -10,6 +10,15 @@ export default class TurmaData extends BaseDataBase {
     `)
   }
 
+  async selectTurma(): Promise<{}[]> {
+    const [turmas] = await this.getConnetion().raw(`
+      SELECT *
+      FROM TURMA
+    `)
+
+    return turmas
+  }
+
   // async selectEstudante(query: string): Promise<[]> {
   //   const [estudante] = await this.getConnetion().raw(`
   //     SELECT *

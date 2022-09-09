@@ -1,6 +1,6 @@
-export default class Estudante {
+export default class Docente {
   constructor(
-    private idEstudante: number,
+    private idDocente: string,
     private nome: string,
     private email: string,
     private data_nasc: string,
@@ -9,7 +9,7 @@ export default class Estudante {
   ) { }
 
   getIdEstudante() {
-    return this.idEstudante
+    return this.idDocente
   }
 
   getNome() {

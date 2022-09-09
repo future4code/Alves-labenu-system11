@@ -5,8 +5,8 @@ export default class EstudanteData extends BaseDataBase {
   async insertEstudante(estudante: Estudante): Promise<void> {
     await this.getConnetion().raw(`
       INSERT
-      INTO ESTUDANTE (id, nome, email, data_nasc, turma_id, hobbies)
-      VALUES (${estudante.getIdEstudante()}, '${estudante.getNome()}', '${estudante.getEmail()}', '${estudante.getData_nasc()}', ${estudante.getTurma_id()}, '${estudante.getHobbie()}')
+      INTO ESTUDANTE (id, nome, email, data_nasc, turma_id)
+      VALUES (${estudante.getIdEstudante()}, '${estudante.getNome()}', '${estudante.getEmail()}', '${estudante.getData_nasc()}', '${estudante.getTurma_id()}')
     `)
   }
 
