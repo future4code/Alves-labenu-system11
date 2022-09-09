@@ -119,4 +119,28 @@ export default class UserController {
       res.status(500).send({ message: error.message })
     }
   }
+
+  async agruparEstudantesHobby(req: Request, res: Response) {
+    try {
+      const hobby_id = Number(req.params.id);
+
+      const estudanteData = new EstudanteData();
+      const estudantes_hobby:any = await estudanteData.selectEstudantesByHobby(hobby_id);
+
+      const resultado = {
+        "hobby_id": estudantes_hobby[0].hobby_id,
+        "hobby_name": estudantes_hobby[0].hobby_name,
+        "estudantes": []
+      }
+
+      estudantes_hobby.forEach( (participante:any) => {
+        resultado.estudantes.push(participante.estudante_nome)
+      })
+
+      res.status(201).send(resultado);
+    } catch (error: any) {
+      res.status(500).send({ message: error.message })
+    }
+  }
+
 }

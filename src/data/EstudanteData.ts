@@ -36,4 +36,18 @@ export default class EstudanteData extends BaseDataBase {
 
     return estudantes
   }
+
+  async selectEstudantesByHobby(id:number): Promise<{}[]> {
+    const [estudantes] = await this.getConnetion().raw(`
+      SELECT HOBBY.id as 'hobby_id', HOBBY.nome as 'hobby_name', ESTUDANTE.nome as 'estudante_nome'
+      FROM ESTUDANTE_HOBBY
+      JOIN ESTUDANTE
+      ON ESTUDANTE_HOBBY.estudante_id = ESTUDANTE.id
+      JOIN HOBBY
+      ON HOBBY.id = ESTUDANTE_HOBBY.hobby_id
+      WHERE (ESTUDANTE_HOBBY.hobby_id = ${id})
+    `)
+
+    return estudantes
+  }
 }

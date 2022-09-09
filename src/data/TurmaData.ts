@@ -39,13 +39,13 @@ export default class TurmaData extends BaseDataBase {
 
   async selectParticipantes(id:number): Promise<{}[]> {
     const [participantes] = await this.getConnetion().raw(`
-    SELECT *
-    FROM TURMA
-    JOIN ESTUDANTE
-    ON ESTUDANTE.turma_id = TURMA.id
-    JOIN DOCENTE
-    ON DOCENTE.turma_id = TURMA.id
-    WHERE (TURMA.id = ${id})
+      SELECT ESTUDANTE.nome as 'nome_estudante', DOCENTE.nome as 'nome_docente', TURMA.nome as 'nome_turma', TURMA.id as 'id_turma'
+      FROM TURMA
+      JOIN ESTUDANTE
+      ON ESTUDANTE.turma_id = TURMA.id
+      JOIN DOCENTE
+      ON DOCENTE.turma_id = TURMA.id
+      WHERE (TURMA.id = ${id})
     `)
 
     return participantes
