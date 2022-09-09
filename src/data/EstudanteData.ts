@@ -20,11 +20,20 @@ export default class EstudanteData extends BaseDataBase {
     return estudante
   }
 
-  async alterarEstudante(id:number, turma:number): Promise<void> {
+  async alterarEstudante(id:number, turma_id:number): Promise<void> {
     await this.getConnetion().raw(`
       UPDATE ESTUDANTE
-      SET turma_id = ${turma}
+      SET turma_id = ${turma_id}
       WHERE (ESTUDANTE.id = ${id})
     `)
+  }
+
+  async selectAllEstudantes(): Promise<{}[]> {
+    const [estudantes] = await this.getConnetion().raw(`
+      SELECT *
+      FROM ESTUDANTE
+    `)
+
+    return estudantes
   }
 }

@@ -54,20 +54,4 @@ export default class TurmaController {
       res.status(500).send({ message: error.message })
     }
   }
-
-  // async buscarEstudante(req: Request, res: Response) {
-  //   try {
-  //     const query = req.query.query as string;
-  //     if (!query) {
-  //       res.statusCode = 400;
-  //       throw new Error('É necessário enviar o campo de busca!');
-  //     }
-  //     const estudanteData = new EstudanteData();
-  //     const estudante = await estudanteData.selectEstudante(query);
-
-  //     res.status(201).send(estudante);
-  //   } catch (error: any) {
-  //     res.status(500).send({ message: error.message })
-  //   }
-  // }
 }
