@@ -9,6 +9,7 @@ const turmaController = new TurmaController();
 
 app.post("/estudante/create", estudanteController.createUser);
 app.get("/estudante/buscar", estudanteController.buscarEstudante);
+app.put("/estudante/mudar", estudanteController.mudarTurmaEstudante);
 
 app.post("/turma/create", turmaController.createTurma);
 

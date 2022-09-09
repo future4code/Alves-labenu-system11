@@ -78,4 +78,23 @@ export default class UserController {
       res.status(500).send({ message: error.message })
     }
   }
+
+  async mudarTurmaEstudante(req: Request, res: Response) {
+    try {
+      const { id, turma } = req.body;
+      if (!id || !turma) {
+        throw new Error("Faltam dados!");
+      }
+
+      const estudanteData = new EstudanteData();
+      await estudanteData.alterarEstudante(id, turma);
+
+
+      res.status(201).send('Turma do estudante alterada com sucesso!');
+    } catch (error: any) {
+      res.status(500).send({ message: error.message })
+    }
+  }
+
+
 }
