@@ -48,26 +48,22 @@ export default class TurmaController {
       const turmaData = new TurmaData();
       await turmaData.alterarModuloTurma(id, modulo);
 
-
       res.status(201).send('Turma do estudante alterada com sucesso!');
     } catch (error: any) {
       res.status(500).send({ message: error.message })
     }
   }
 
-  // async buscarEstudante(req: Request, res: Response) {
-  //   try {
-  //     const query = req.query.query as string;
-  //     if (!query) {
-  //       res.statusCode = 400;
-  //       throw new Error('É necessário enviar o campo de busca!');
-  //     }
-  //     const estudanteData = new EstudanteData();
-  //     const estudante = await estudanteData.selectEstudante(query);
+  async buscarParticipantes(req: Request, res: Response) {
+    try {
+      const turma_id = Number(req.params.id);
 
-  //     res.status(201).send(estudante);
-  //   } catch (error: any) {
-  //     res.status(500).send({ message: error.message })
-  //   }
-  // }
+      const turmaData = new TurmaData();
+      const participantes = await turmaData.selectParticipantes(turma_id);
+
+      res.status(201).send(participantes);
+    } catch (error: any) {
+      res.status(500).send({ message: error.message })
+    }
+  }
 }

@@ -1,14 +1,14 @@
 export default class Docente {
   constructor(
-    private idDocente: string,
+    private idDocente: number,
     private nome: string,
     private email: string,
     private data_nasc: string,
     private turma_id: number,
-    private hobbie: string[] = []
+    private especialidades: string[] = []
   ) { }
 
-  getIdEstudante() {
+  getIdDocente() {
     return this.idDocente
   }
 
@@ -28,7 +28,7 @@ export default class Docente {
     return this.turma_id
   }
 
-  getHobbie() {
-    return this.hobbie
+  getEspecialidades() {
+    return this.especialidades
   }
 }

@@ -20,7 +20,6 @@ export default class TurmaData extends BaseDataBase {
   }
 
   async selectTurmasAtivas(): Promise<{}[]> {
-    console.log('entrei aqui')
     const [turmasAtivas] = await this.getConnetion().raw(`
       SELECT *
       FROM TURMA
@@ -38,12 +37,17 @@ export default class TurmaData extends BaseDataBase {
     `)
   }
 
-  // async selectEstudante(query: string): Promise<[]> {
-  //   const [estudante] = await this.getConnetion().raw(`
-  //     SELECT *
-  //     FROM ESTUDANTE
-  //     WHERE (ESTUDANTE.nome LIKE "%${query}%")
-  //   `)
-  //   return estudante
-  // }
+  async selectParticipantes(id:number): Promise<{}[]> {
+    const [participantes] = await this.getConnetion().raw(`
+    SELECT *
+    FROM TURMA
+    JOIN ESTUDANTE
+    ON ESTUDANTE.turma_id = TURMA.id
+    JOIN DOCENTE
+    ON DOCENTE.turma_id = TURMA.id
+    WHERE (TURMA.id = ${id})
+    `)
+
+    return participantes
+  }
 }

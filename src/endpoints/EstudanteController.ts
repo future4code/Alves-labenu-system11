@@ -81,20 +81,42 @@ export default class UserController {
 
   async mudarTurmaEstudante(req: Request, res: Response) {
     try {
-      const { id, turma } = req.body;
-      if (!id || !turma) {
+      const { id, turma_id } = req.body;
+      if (!id || !turma_id) {
         throw new Error("Faltam dados!");
       }
 
+      // Verificações relacionadas ao estudante
       const estudanteData = new EstudanteData();
-      await estudanteData.alterarEstudante(id, turma);
+      const estudantes:any = await estudanteData.selectAllEstudantes(); // ARRUMAR O ANY
+      if (!estudantes.length) {
+        throw new Error("Não existem estudantes cadastrados, logo, não é possível alterar a turma do estudante!");
+      }
+      const estudante = estudantes.filter( (estudante:any) => {
+        return estudante.id === id
+      })
+      if (!estudante) {
+        throw new Error("Não existe estudante cadastrado(a) com este ID!");
+      }
 
+      // Verificações relacionadas a turma
+      const turmaData = new TurmaData();
+      const turmas:any = await turmaData.selectTurma(); // ARRUMAR O ANY
+      if (!turmas.length) {
+        throw new Error("Não existem turmas cadastradas, logo, não é possível mudar a turma do estudante!");
+      }
+      const turmaExiste = turmas.filter( (turma:any) => {
+        return turma.id === turma_id
+      })
+      if (!turmaExiste.length) {
+        throw new Error("Não existem turmas cadastradas com este ID!");
+      }
+
+      await estudanteData.alterarEstudante(id, turma_id);
 
       res.status(201).send('Turma do estudante alterada com sucesso!');
     } catch (error: any) {
       res.status(500).send({ message: error.message })
     }
   }
-
-
 }
