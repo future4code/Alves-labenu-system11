@@ -12,5 +12,7 @@ app.get("/estudante/buscar", estudanteController.buscarEstudante);
 app.put("/estudante/mudar", estudanteController.mudarTurmaEstudante);
 
 app.post("/turma/create", turmaController.createTurma);
+app.get("/turma/ativas", turmaController.buscarTurmasAtivas);
+app.put("/turma/mudar", turmaController.mudarModuloTurma);
 
 // app.post("/docente/create", docenteController.createDocente);

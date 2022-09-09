@@ -4,7 +4,7 @@ export default class Turma {
   private modulo: number = 0;
 
   constructor(
-    private idTurma: string,
+    private idTurma: number,
     private nome: string,
   ) {}
 
