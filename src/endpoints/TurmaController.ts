@@ -48,8 +48,20 @@ export default class TurmaController {
       const turmaData = new TurmaData();
       await turmaData.alterarModuloTurma(id, modulo);
 
-
       res.status(201).send('Turma do estudante alterada com sucesso!');
+    } catch (error: any) {
+      res.status(500).send({ message: error.message })
+    }
+  }
+
+  async buscarParticipantes(req: Request, res: Response) {
+    try {
+      const turma_id = Number(req.params.id);
+
+      const turmaData = new TurmaData();
+      const participantes = await turmaData.selectParticipantes(turma_id);
+
+      res.status(201).send(participantes);
     } catch (error: any) {
       res.status(500).send({ message: error.message })
     }
