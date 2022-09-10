@@ -16,6 +16,7 @@ app.post("/turma/create", turmaController.createTurma);
 app.get("/turma/ativas", turmaController.buscarTurmasAtivas);
 app.put("/turma/mudar", turmaController.mudarModuloTurma);
 app.get("/:id/participantes", turmaController.buscarParticipantes);
+app.get("/signos", turmaController.agruparPorSigno);
 
 app.post("/docente/create", docenteController.createDocente);
 app.get("/docente", docenteController.obterDocentes);

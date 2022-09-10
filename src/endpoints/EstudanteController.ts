@@ -142,5 +142,4 @@ export default class UserController {
       res.status(500).send({ message: error.message })
     }
   }
-
 }
