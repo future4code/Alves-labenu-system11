@@ -15,7 +15,7 @@ app.get("/estudante/hobby/:id", estudanteController.agruparEstudantesHobby);
 app.post("/turma/create", turmaController.createTurma);
 app.get("/turma/ativas", turmaController.buscarTurmasAtivas);
 app.put("/turma/mudar", turmaController.mudarModuloTurma);
-app.get("/:id/participantes", turmaController.buscarParticipantes);
+app.get("/:id/participantes", turmaController.buscarParticipantesTurma);
 app.get("/signos", turmaController.agruparPorSigno);
 
 app.post("/docente/create", docenteController.createDocente);

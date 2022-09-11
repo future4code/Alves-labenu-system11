@@ -13,9 +13,25 @@ export default class UserController {
       if (!nome || !email || !data_nasc || !especialidades.length) {
         throw new Error("Faltam dados!");
       }
-
-      // FAZER VERIFICAÇÕES COM RELAÇÃO AS ESPECIALIDADE
-      // (SÓ PODEM SER ALGUMA(S) DENTRE AS 6)
+      if (typeof(nome) !== 'string') {
+        res.statusCode = 400;
+        throw new Error("A variável nome deve ser do tipo string!");
+      }
+      if (typeof(email) !== 'string') {
+        res.statusCode = 400;
+        throw new Error("A variável email deve ser do tipo string!");
+      }
+      if (typeof(data_nasc) !== 'string') {
+        res.statusCode = 400;
+        throw new Error("A variável data de nascimento deve ser do tipo string!");
+      }
+      const foundIdEspecialidade:any = especialidades.find( (esp:any) => {
+        return (esp!=="JS" && esp!=="CSS" && esp!=="React" && esp!=="Typescript" && esp!=="POO")
+      })
+      if (foundIdEspecialidade) {
+        res.statusCode = 400;
+        throw new Error("A especialidade deve ser uma dentre as seis cadastradas!");
+      }
 
       const [day, month, year] = data_nasc.split('/');
       const data_nasc_2 = `${year}-${month}-${day}`;
@@ -49,7 +65,7 @@ export default class UserController {
         if(foundIdEspecialidade) salvarDocenteEspecialidade(foundIdEspecialidade.id)
       })
 
-      res.status(201).send('Docente criado com sucesso!');
+      res.status(201).send('Docente criado(a) com sucesso!');
     } catch (error: any) {
       res.status(500).send({ message: error.message })
     }
@@ -68,19 +84,27 @@ export default class UserController {
 
   async mudarTurmaDocente(req: Request, res: Response) {
     try {
-      const { id, turma_id } = req.body;
-      if (!id || !turma_id) {
+      const { docente_id, turma_id } = req.body;
+      if (!docente_id || !turma_id) {
         throw new Error("Faltam dados!");
+      }
+      if (typeof(docente_id) !== 'number') {
+        res.statusCode = 400;
+        throw new Error("o ID do docente deve ser do tipo number!");
+      }
+      if (typeof(turma_id) !== 'number') {
+        res.statusCode = 400;
+        throw new Error("o ID da turma deve ser do tipo number!");
       }
 
       // Verificações relacionadas ao docente
       const docenteData = new DocenteData();
-      const docentes:any = await docenteData.selectDocentes(); // ARRUMAR O ANY
+      const docentes:any = await docenteData.selectDocentes();
       if (!docentes.length) {
         throw new Error("Não existem docentes cadastrados, logo, não é possível alterar a turma do docente!");
       }
       const docente = docentes.filter( (docente:any) => {
-        return docente.id === id
+        return docente.id === docente_id
       })
       if (!docente) {
         throw new Error("Não existe docente cadastrado(a) com este ID!");
@@ -99,7 +123,7 @@ export default class UserController {
         throw new Error("Não existem turmas cadastradas com este ID!");
       }
 
-      await docenteData.alterarDocente(id, turma_id);
+      await docenteData.alterarDocente(docente_id, turma_id);
 
       res.status(201).send('Turma do docente alterada com sucesso!');
     } catch (error: any) {
@@ -112,6 +136,10 @@ export default class UserController {
 
       const docenteData = new DocenteData();
       const docentesAgrupados:any = await docenteData.agruparDocentesPOO();
+      if (!docentesAgrupados.length) {
+        res.statusCode = 400;
+        throw new Error("Não existem docentes com especialidade POO!");
+      }
 
       const resultado = {
         "especialidade": docentesAgrupados[0].especialidade_nome,
@@ -122,7 +150,7 @@ export default class UserController {
         resultado.docentes.push(docente.docente_nome)
       })
 
-      res.status(201).send(resultado);
+      res.status(200).send(resultado);
     } catch (error: any) {
       res.status(500).send({ message: error.message })
     }
