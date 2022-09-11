@@ -11,8 +11,22 @@ export default class UserController {
       const { nome, email, data_nasc, hobby } = req.body;
 
       if (!nome || !email || !data_nasc || !hobby.length) {
+        res.statusCode = 400;
         throw new Error("Faltam dados!");
       }
+      if (typeof(nome) !== 'string') {
+        res.statusCode = 400;
+        throw new Error("A variável nome deve ser do tipo string!");
+      }
+      if (typeof(email) !== 'string') {
+        res.statusCode = 400;
+        throw new Error("A email nome deve ser do tipo string!");
+      }
+      if (typeof(data_nasc) !== 'string') {
+        res.statusCode = 400;
+        throw new Error("A variável data de nascimento deve ser do tipo string!");
+      }
+
       const [day, month, year] = data_nasc.split('/');
       const data_nasc_2 = `${year}-${month}-${day}`;
       const id = new Date().getTime();
@@ -22,19 +36,20 @@ export default class UserController {
       const hobbies:{}[] = await hobbyData.selectHobby();
 
       const salvarHobby = async(hobby:string) => {
-        await hobbyData.insertEstudante(new Date().getTime(), hobby);
+        await hobbyData.insertEstudante(new Date().getTime()+Math.floor(Math.random()*1000), hobby);
       }
 
       hobby.forEach( (hobby:any) => {
-        let foundHobby = undefined;
-        foundHobby = hobbies.find( (hobbie:any) => {
+        let foundHobby = hobbies.find( (hobbie:any) => {
           return hobbie.nome === hobby
         })
         if (!foundHobby) salvarHobby(hobby)
       })
 
+      // Atualização tabela ESTUDANTE
       const turmaData = new TurmaData();
-      const turmas:any = await turmaData.selectTurma(); // ARRUMAR O ANY
+      const turmas:any = await turmaData.selectTurma();
+      console.log(turmas)
       if (!turmas.length) {
         throw new Error("Não existem turmas, logo, não é possível criar estudantes!");
       }
@@ -57,7 +72,7 @@ export default class UserController {
         if(foundIdHobby) salvarEstudanteHobby(foundIdHobby.id)
       })
 
-      res.status(201).send('Estudante criado com sucesso!');
+      res.status(200).send('Estudante criado com sucesso!');
     } catch (error: any) {
       res.status(500).send({ message: error.message })
     }
@@ -65,15 +80,11 @@ export default class UserController {
 
   async buscarEstudante(req: Request, res: Response) {
     try {
-      const query = req.query.query as string;
-      if (!query) {
-        res.statusCode = 400;
-        throw new Error('É necessário enviar o campo de busca!');
-      }
+      const query = req.query.query as string || "";
       const estudanteData = new EstudanteData();
       const estudante = await estudanteData.selectEstudante(query);
 
-      res.status(201).send(estudante);
+      res.status(200).send(estudante);
     } catch (error: any) {
       res.status(500).send({ message: error.message })
     }
@@ -81,19 +92,28 @@ export default class UserController {
 
   async mudarTurmaEstudante(req: Request, res: Response) {
     try {
-      const { id, turma_id } = req.body;
-      if (!id || !turma_id) {
+      const { estudante_id, turma_id } = req.body;
+      if (!estudante_id || !turma_id) {
+        res.statusCode = 400;
         throw new Error("Faltam dados!");
+      }
+      if (typeof(estudante_id) !== 'number') {
+        res.statusCode = 400;
+        throw new Error("O ID estudante deve ser do tipo number!");
+      }
+      if (typeof(turma_id) !== 'number') {
+        res.statusCode = 400;
+        throw new Error("O ID da turma deve ser do tipo number!");
       }
 
       // Verificações relacionadas ao estudante
       const estudanteData = new EstudanteData();
-      const estudantes:any = await estudanteData.selectAllEstudantes(); // ARRUMAR O ANY
+      const estudantes:any = await estudanteData.selectAllEstudantes();
       if (!estudantes.length) {
         throw new Error("Não existem estudantes cadastrados, logo, não é possível alterar a turma do estudante!");
       }
       const estudante = estudantes.filter( (estudante:any) => {
-        return estudante.id === id
+        return estudante.id === estudante_id
       })
       if (!estudante) {
         throw new Error("Não existe estudante cadastrado(a) com este ID!");
@@ -101,7 +121,7 @@ export default class UserController {
 
       // Verificações relacionadas a turma
       const turmaData = new TurmaData();
-      const turmas:any = await turmaData.selectTurma(); // ARRUMAR O ANY
+      const turmas:any = await turmaData.selectTurma();
       if (!turmas.length) {
         throw new Error("Não existem turmas cadastradas, logo, não é possível mudar a turma do estudante!");
       }
@@ -112,9 +132,9 @@ export default class UserController {
         throw new Error("Não existem turmas cadastradas com este ID!");
       }
 
-      await estudanteData.alterarEstudante(id, turma_id);
+      await estudanteData.alterarEstudante(estudante_id, turma_id);
 
-      res.status(201).send('Turma do estudante alterada com sucesso!');
+      res.status(200).send('Turma do estudante alterada com sucesso!');
     } catch (error: any) {
       res.status(500).send({ message: error.message })
     }
@@ -123,6 +143,12 @@ export default class UserController {
   async agruparEstudantesHobby(req: Request, res: Response) {
     try {
       const hobby_id = Number(req.params.id);
+
+      const hobbyData = new HobbyData();
+      const hobby:{}[] = await hobbyData.selectHobbyById(hobby_id);
+      if (!hobby.length) {
+        throw new Error("Não existe hobby cadastrado com este ID!");
+      }
 
       const estudanteData = new EstudanteData();
       const estudantes_hobby:any = await estudanteData.selectEstudantesByHobby(hobby_id);

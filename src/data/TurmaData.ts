@@ -29,6 +29,16 @@ export default class TurmaData extends BaseDataBase {
     return turmasAtivas
   }
 
+  async selectTurmasById(id:number): Promise<{}[]> {
+    const [turmas] = await this.getConnetion().raw(`
+      SELECT *
+      FROM TURMA
+      WHERE (TURMA.id = ${id})
+    `)
+
+    return turmas
+  }
+
   async alterarModuloTurma(id:number, modulo:number): Promise<void> {
     await this.getConnetion().raw(`
       UPDATE TURMA

@@ -10,6 +10,16 @@ export default class HobbyData extends BaseDataBase {
     return hobbies
   }
 
+  async selectHobbyById(hobby_id:number): Promise<[]> {
+    const [hobby] = await this.getConnetion().raw(`
+      SELECT *
+      FROM HOBBY
+      WHERE (HOBBY.id = ${hobby_id})
+    `)
+
+    return hobby
+  }
+
   async insertEstudante(id:number, nome:string): Promise<void> {
     await this.getConnetion().raw(`
       INSERT

@@ -27,6 +27,16 @@ export default class DocenteData extends BaseDataBase {
     `)
   }
 
+  async selectDocentesByIdTurma(id:number): Promise<void> {
+    const [docentes] = await this.getConnetion().raw(`
+      SELECT *
+      FROM DOCENTE
+      WHERE (DOCENTE.turma_id = ${id})
+    `)
+
+    return docentes
+  }
+
   async agruparDocentesPOO(): Promise<{}[]> {
     const [docentesAgrupadosPOO] = await this.getConnetion().raw(`
       SELECT DOCENTE.nome as 'docente_nome', ESPECIALIDADE.nome as 'especialidade_nome'

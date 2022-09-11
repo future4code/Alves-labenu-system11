@@ -12,6 +12,10 @@ export default class TurmaController {
       if (!nome) {
         throw new Error("Faltam dados!");
       }
+      if (typeof(nome) !== 'string') {
+        res.statusCode = 400;
+        throw new Error("A variável nome deve ser do tipo string!");
+      }
 
       const id:number = new Date().getTime();
       const turma = new Turma(id, nome);
@@ -26,11 +30,14 @@ export default class TurmaController {
 
   async buscarTurmasAtivas(req: Request, res: Response) {
     try {
-      
       const turmaData = new TurmaData();
       const turmasAtivas:any = await turmaData.selectTurmasAtivas();
-
-      res.status(201).send(turmasAtivas);
+      if (!turmasAtivas.length) {
+        res.status(201).send("Não existem turmas ativas");
+      } else {
+        res.status(201).send(turmasAtivas);
+      }
+      
     } catch (error: any) {
       res.status(500).send({ message: error.message });
     }
@@ -38,40 +45,66 @@ export default class TurmaController {
 
   async mudarModuloTurma(req: Request, res: Response) {
     try {
-      const { id, modulo } = req.body;
-      if (!id || !modulo) {
+      const { turma_id, modulo } = req.body;
+      if (!turma_id || !modulo) {
         throw new Error("Faltam dados!");
       }
-
+      if (typeof(turma_id) !== 'number') {
+        res.statusCode = 400;
+        throw new Error("O ID da turma deve ser do tipo number!");
+      }
+      if (typeof(modulo) !== 'number') {
+        res.statusCode = 400;
+        throw new Error("O módulo da turma deve ser do tipo number!");
+      }
       if (modulo < 0 || modulo > 6) {
         throw new Error("O módulo deve ser um número entre 0 e 6!");
       }
 
       const turmaData = new TurmaData();
-      await turmaData.alterarModuloTurma(id, modulo);
+      const turmas = await turmaData.selectTurmasById(turma_id);
+      if (!turmas.length) {
+        res.statusCode = 400;
+        throw new Error("Não existem turmas cadastradas com este ID!");
+      }
+      await turmaData.alterarModuloTurma(turma_id, modulo);
 
-      res.status(201).send('Turma do estudante alterada com sucesso!');
+      res.status(201).send('Módulo da turma alterado com sucesso!');
     } catch (error: any) {
       res.status(500).send({ message: error.message })
     }
   }
 
-  async buscarParticipantes(req: Request, res: Response) {
+  async buscarParticipantesTurma(req: Request, res: Response) {
     try {
       const turma_id = Number(req.params.id);
-
+      
       const turmaData = new TurmaData();
-      const participantes:any = await turmaData.selectParticipantes(turma_id);
-
-      const resultado = {
-        "docente": participantes[0].nome_docente,
-        "alunos": [],
-        "id_turma": participantes[0].id_turma,
-        "nome_turma": participantes[0].nome_turma
+      const turmas:any = await turmaData.selectTurmasById(turma_id);
+      if (!turmas.length) {
+        res.statusCode = 400;
+        throw new Error("Não existem turmas cadastradas com este ID!");
       }
 
-      participantes.forEach( (participante:any) => {
-        resultado.alunos.push(participante.nome_estudante)
+      const docenteData = new DocenteData();
+      const docentes:any = await docenteData.selectDocentesByIdTurma(turma_id);
+
+      const estudanteData = new EstudanteData();
+      const estudantes:any = await estudanteData.selectEstudantesByIdTurma(turma_id);
+
+      const resultado = {
+        "id_turma": turma_id,
+        "nome_turma": turmas[0].nome,
+        "docentes": [],
+        "alunos": []
+      }
+
+      estudantes.forEach( (estudante:any) => {
+        resultado.alunos.push(estudante.nome)
+      })
+
+      docentes.forEach( (docente:any) => {
+        resultado.docentes.push(docente.nome)
       })
 
       res.status(201).send(resultado);
