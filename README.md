@@ -1,5 +1,5 @@
 # `Projeto`
-Projeto Labenu System - backend
+Labenu System - backend
 
 # `Link`
 [Clique aqui!](https://labenu-system-11.herokuapp.com/)
