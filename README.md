@@ -7,19 +7,19 @@ Projeto Labenu System - backend
 # `Descrição`
 O Projeto Labenu-system-backend foi desenvolvido como uma atividade dentro do curso Full-Stack Web Developer da Labenu, o qual consiste na elaboração de uma API que retorna dados conforme as requisições enviadas. Trata-se de uma ferramenta de cadastro de alunos, professores e turmas. As requisições implementadas são:
 
-- **criarEstudante** cria um novo estudante.
-- **buscarEstudante** buscar estudante via campo de busca.
-- **criarTurma** cria uma nova turma.
-- **mudarTurmaEstudante** muda a turma de um estudante.
-- **obterTurmasAtivas** retorna todas as turmas que estão ativas (módulo diferente de 0).
-- **mudarModuloTurma** muda o módulo de uma turma.
-- **criarDocente** cria um novo docente.
-- **buscarTodosDocentes** retorna todos os docentes cadastrados.
-- **mudarTurmaDocente** muda a turma de um docente.
-- **obterDiscentesDocentesTurma** retorna todos os docentes e discentes de uma turma.
-- **agruparEstudantesPorHobby** retorna todos os estudantes que possuem um mesmo hobby.
-- **agruparDocentesPOO** retorna todos os docentes que possuem POO como especialidade.
-- **agruparPorSigno** retorna todos os docentes e discentes que possuem um determinado signo.
+- **criarEstudante:** cria um novo estudante.
+- **buscarEstudante:** buscar estudante via campo de busca.
+- **criarTurma:** cria uma nova turma.
+- **mudarTurmaEstudante:** muda a turma de um estudante.
+- **obterTurmasAtivas:** retorna todas as turmas que estão ativas (módulo diferente de 0).
+- **mudarModuloTurma:** muda o módulo de uma turma.
+- **criarDocente:** cria um novo docente.
+- **buscarTodosDocentes:** retorna todos os docentes cadastrados.
+- **mudarTurmaDocente:** muda a turma de um docente.
+- **obterDiscentesDocentesTurma:** retorna todos os docentes e discentes de uma turma.
+- **agruparEstudantesPorHobby:** retorna todos os estudantes que possuem um mesmo hobby.
+- **agruparDocentesPOO:** retorna todos os docentes que possuem POO como especialidade.
+- **agruparPorSigno:** retorna todos os docentes e discentes que possuem um determinado signo.
 
 A documentação da API pode ser acessada [aqui](https://documenter.getpostman.com/view/21552787/2s7YYoB6Nj).
 
@@ -70,13 +70,13 @@ Fazer as requisições para os endpoint mostrados na documentação, utilizando,
 </div>
 
 # `Autores`
-Evandro Paulo Folletto
+Evandro Paulo Folletto </br>
 <a href="https://www.linkedin.com/in/evandrofolletto/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a> <a href="https://github.com/epfolletto"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a>
 
-Henrique Rodriguez
+Henrique Rodriguez </br>
 <a href=""><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a> <a href="https://github.com/HenriqueRodriguez"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a>
 
-Wilson Oliveira
+Wilson Oliveira </br>
 <a href=""><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white"></a> <a href="https://github.com/wilsonsantos1992"><img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white"></a>
 
 # `Imagens`
